@@ -1,0 +1,61 @@
+﻿@using TastTest.Models
+@model Team
+@{
+    ViewBag.Title = "Команда " + @Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Мероприятие: @Model.Name</h4>
+    <br />
+</div>
+<div>
+    <table class="table">
+        <tr>
+            <td>Мероприятие:</td>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Тема:</td>
+            <td>@Html.DisplayFor(model => model.Thema)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Дата мероприятия:</td>
+            <td>@Html.DisplayFor(model => model.Dates)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Время мероприятия:</td>
+            <td>@Html.DisplayFor(model => model.Times)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Дополнительные поля:</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        @foreach (Player player in Model.Players)
+        {
+            <tr>
+                <td align="right">@player.Name: </td>
+                <td align="left">@player.Description</td>
+                <td>
+                    @Html.ActionLink("Edit", "OtherEdit", new { id = player.Id, ModelId = Model.Id }) |
+                    @Html.ActionLink("Delete", "OtherDelete", new { id = player.Id })
+                </td>
+            </tr>
+        }
+
+
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td><dt>@Html.ActionLink("Добавить поле", "OtherCreate", new { id = Model.Id })</dt></td>
+        </tr>
+    </table>
+    <dt>@Html.ActionLink("Назад", "Index")</dt>
+</div>

@@ -1,0 +1,77 @@
+﻿@using TastTest.Models
+@using Microsoft.AspNet.Identity
+@model Team
+@{
+    ViewBag.Title = "Команда " + @Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Мероприятие: @Model.Name</h4>
+    <br />
+</div>
+<div>
+    <table class="table">
+        <tr>
+            <td>Мероприятие:</td>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Тема:</td>
+            <td>@Html.DisplayFor(model => model.Thema)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Дата мероприятия:</td>
+            <td>@Html.DisplayFor(model => model.Dates)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Время мероприятия:</td>
+            <td>@Html.DisplayFor(model => model.Times)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Количество участников:</td>
+            <td>@Html.DisplayFor(model => model.SumAmount) из @Html.DisplayFor(model => model.Amount)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Дополнительные поля:</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        @foreach (Player player in Model.Players)
+        {
+            <tr>
+                <td align="right">@player.Name: </td>
+                <td align="left">@player.Description</td>
+            </tr>
+        }
+    </table>
+    @Html.ActionLink("Back to List", "Index") |
+    @if (Request.IsAuthenticated)
+    {
+        if (Model.Amount > Model.SumAmount)
+        {
+            <div class="form-group">
+                @using (Html.BeginForm("Resultsc", "HomeController"))
+                {
+                    @Html.ActionLink("Записаться", "Results", new { id = Model.Id, UserId = User.Identity.GetUserId() })
+                }
+            </div>
+        }
+        else
+        {
+            <p>Недостаточно мест!</p>
+        }
+
+    }
+    else
+    {
+        <p>Сначала нужно авторизироваться!!</p>
+    }
+
+</div>
